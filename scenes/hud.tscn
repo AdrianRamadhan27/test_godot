@@ -1,0 +1,83 @@
+[gd_scene load_steps=8 format=3 uid="uid://d4cmhs83kuvsh"]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_w38b7"]
+[ext_resource type="Texture2D" uid="uid://0l5vauajdlda" path="res://assets/UI/grey_arrowDownWhite.png" id="2_ngwxe"]
+[ext_resource type="Texture2D" uid="uid://d0pdkbwjdm2wo" path="res://assets/UI/grey_arrowDownGrey.png" id="3_4dx86"]
+[ext_resource type="Texture2D" uid="uid://nr5o181kl43e" path="res://assets/UI/red_sliderRight.png" id="4_4g252"]
+[ext_resource type="Texture2D" uid="uid://c3nmpsqus657b" path="res://assets/UI/yellow_sliderRight.png" id="5_3us2e"]
+[ext_resource type="Texture2D" uid="uid://lfq4duqjpo34" path="res://assets/UI/red_sliderLeft.png" id="6_5r814"]
+[ext_resource type="Texture2D" uid="uid://bqnn0c0tixr00" path="res://assets/UI/yellow_sliderLeft.png" id="7_ckym8"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_w38b7")
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="Title" type="Label" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 72.0
+offset_bottom = 127.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Thalli-Care"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayButton" type="TouchScreenButton" parent="."]
+position = Vector2(206, 578)
+rotation = 4.71239
+scale = Vector2(5, 5)
+texture_normal = ExtResource("2_ngwxe")
+texture_pressed = ExtResource("3_4dx86")
+
+[node name="RightButton" type="TouchScreenButton" parent="."]
+position = Vector2(326, 497)
+scale = Vector2(3, 3)
+texture_normal = ExtResource("4_4g252")
+texture_pressed = ExtResource("5_3us2e")
+action = "walk_right"
+
+[node name="LeftButton" type="TouchScreenButton" parent="."]
+position = Vector2(32, 497)
+scale = Vector2(3, 3)
+texture_normal = ExtResource("6_5r814")
+texture_pressed = ExtResource("7_ckym8")
+action = "walk_left"
+
+[node name="ScoreLabel" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 82.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 59
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Message" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -152.0
+offset_top = -216.0
+offset_right = 144.0
+offset_bottom = -45.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "Get the bloods!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="MessageTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]

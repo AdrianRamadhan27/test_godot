@@ -1,0 +1,75 @@
+[gd_scene load_steps=6 format=3 uid="uid://w6r5im4sktwi"]
+
+[ext_resource type="PackedScene" uid="uid://bkkdnxcax75na" path="res://scenes/player.tscn" id="1_bh28y"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_pomdc"]
+[ext_resource type="PackedScene" uid="uid://d4cmhs83kuvsh" path="res://scenes/hud.tscn" id="3_ddx3w"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_syxfr"]
+bg_color = Color(0.988235, 0, 0.290196, 1)
+
+[sub_resource type="Curve2D" id="Curve2D_hpd2v"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 480, 0)
+}
+point_count = 2
+
+[node name="Main" type="Node"]
+script = ExtResource("1_pomdc")
+
+[node name="Bakcground" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.427451, 0.988235, 1, 1)
+
+[node name="Grass" type="ColorRect" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -275.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.184314, 0.85098, 0, 1)
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -68.0
+offset_right = 108.0
+offset_bottom = -41.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/fill = SubResource("StyleBoxFlat_syxfr")
+
+[node name="HealthTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="StartTimer" type="Timer" parent="."]
+
+[node name="BloodTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="Player" parent="." instance=ExtResource("1_bh28y")]
+
+[node name="BloodPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_hpd2v")
+
+[node name="BloodLocation" type="PathFollow2D" parent="BloodPath"]
+
+[node name="HUD" parent="." instance=ExtResource("3_ddx3w")]
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(240, 450)
+
+[connection signal="value_changed" from="HealthBar" to="." method="_on_health_bar_value_changed"]
+[connection signal="timeout" from="HealthTimer" to="." method="_on_health_timer_timeout"]
+[connection signal="timeout" from="BloodTimer" to="." method="_on_blood_timer_timeout"]
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
+[connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]

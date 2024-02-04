@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://bkkdnxcax75na"]
+
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_lv8en"]
+[ext_resource type="Texture2D" uid="uid://ch32j72db5n8g" path="res://assets/Male adventurer/PNG/Poses/character_maleAdventurer_side.png" id="2_p74im"]
+[ext_resource type="Texture2D" uid="uid://kob3p4426mfr" path="res://assets/Male adventurer/PNG/Poses/character_maleAdventurer_run0.png" id="3_swq2d"]
+[ext_resource type="Texture2D" uid="uid://5ni8jsjw1bqa" path="res://assets/Male adventurer/PNG/Poses/character_maleAdventurer_run1.png" id="4_b3kke"]
+[ext_resource type="Texture2D" uid="uid://17di6mgoutx5" path="res://assets/Male adventurer/PNG/Poses/character_maleAdventurer_run2.png" id="5_8n33f"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rjbwm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_p74im")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_swq2d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_b3kke")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_8n33f")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gubhx"]
+radius = 31.0
+height = 116.0
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(237, 404)
+script = ExtResource("1_lv8en")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -16)
+sprite_frames = SubResource("SpriteFrames_rjbwm")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_gubhx")

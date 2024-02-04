@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://cm6k6nrw3clo2"]
+
+[ext_resource type="Script" path="res://scripts/blood.gd" id="1_vg2d5"]
+[ext_resource type="Texture2D" uid="uid://m0tvtk5oyh83" path="res://assets/My_creation/my_blood_drop.png" id="2_dxgp0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6em18"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_dxgp0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s71fx"]
+radius = 95.0
+height = 346.0
+
+[node name="Blood" type="RigidBody2D"]
+position = Vector2(248, 264)
+collision_mask = 0
+script = ExtResource("1_vg2d5")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -5)
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_6em18")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-11, 2)
+scale = Vector2(0.3, 0.3)
+shape = SubResource("CapsuleShape2D_s71fx")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

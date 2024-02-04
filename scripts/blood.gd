@@ -1,0 +1,23 @@
+extends RigidBody2D
+signal hit
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	queue_free()
+
+
+func remove_drop():
+	$CollisionShape2D.set_deferred("disabled", true)
+	queue_free()
+	# Must be deferred as we can't change physics properties on a physics callback.
+
+
