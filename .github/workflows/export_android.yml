@@ -23,7 +23,7 @@ jobs:
     - name: Export APK
       run: |
         mkdir -p build/android
-        godot --export-debug "Android" build/android/thalicare.apk
+        godot --export-debug "Android" --rendering-driver opengl3 build/android/thalicare.apk
 
     - name: Create Release
       id: create_release
