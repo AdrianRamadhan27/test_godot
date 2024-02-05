@@ -6,9 +6,11 @@ name: Android upload
 
 on:
   push:
-    paths:
-      - "version"
-      - ".github/workflows/export_android.yml"
+    branches:
+      - main
+    # paths:
+    #   - "version"
+    #   - ".github/workflows/export_android.yml"
 
 env:
   GODOT_VERSION: 4.2.1
