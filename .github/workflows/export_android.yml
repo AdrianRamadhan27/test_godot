@@ -20,10 +20,10 @@ jobs:
         mv Godot_v4.2.1-stable_linux.x86_64 /usr/local/bin/godot
         chmod +x /usr/local/bin/godot
 
-    - name: Export APK
+ - name: Export APK
       run: |
         mkdir -p build/android
-        godot --export "Android" build/android/thalicare.apk
+        godot --export-debug "Android" build/android/thalicare.apk
 
     - name: Create Release
       id: create_release
