@@ -22,6 +22,7 @@ env:
   ANDROID_KEYSTORE_DEBUG_BASE64: ${{ secrets.ANDROID_KEYSTORE_DEBUG_BASE64 }}
   # SERVICE_ACCOUNT_JSON: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
   WORKING_DIRECTORY: .
+  TEST_OUTPUT_FOLDER: test/reports
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -34,8 +35,30 @@ jobs:
         path: "."
         test-dir: "res://test/unit"
         config-file: "res://.gut_editor_config.json"
+  coverage-report:
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create test output folder
+        run: mkdir -p $TEST_OUTPUT_FOLDER
+
+      - name: Make shell script executable
+        run: chmod +x ./tools/godot_coverage_hack.sh
+
+      - name: Run shell script
+        run: ./tools/godot_coverage_hack.sh --verbose
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage_report
+          path: ${{ env.TEST_OUTPUT_FOLDER }}/coverage_*.xml
+          
   deploy:
+    needs: [test, coverage-report-job]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
