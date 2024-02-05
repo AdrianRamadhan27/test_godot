@@ -23,6 +23,17 @@ env:
   # SERVICE_ACCOUNT_JSON: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
   WORKING_DIRECTORY: .
 jobs:
+  test:
+    name: Run GUT tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Docker test
+        uses: ceceppa/godot-gut-ci@main
+        with:
+          godot_version: 4.2.1
   deploy:
     runs-on: ubuntu-latest
     steps:
