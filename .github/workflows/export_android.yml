@@ -16,8 +16,8 @@ jobs:
     - name: Download and extract Godot
       run: |
         wget https://github.com/godotengine/godot-builds/releases/download/4.2.1-stable/Godot_v4.2.1-stable_linux.x86_64.zip
-        unzip Godot_v4.2.1-stable_linux_headless.64.zip
-        mv Godot_v4.2.1-stable_linux_headless.64 /usr/local/bin/godot
+        unzip Godot_v4.2.1-stable_linux.x86_64.zip
+        mv Godot_v4.2.1-stable_linux.x86_64 /usr/local/bin/godot
         chmod +x /usr/local/bin/godot
 
     - name: Export APK
