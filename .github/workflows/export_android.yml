@@ -56,9 +56,9 @@ jobs:
         with:
           name: coverage_report
           path: ${{ env.TEST_OUTPUT_FOLDER }}/coverage_*.xml
-          
+
   deploy:
-    needs: [test, coverage-report-job]
+    needs: [test, coverage-report]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
