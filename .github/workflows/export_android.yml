@@ -15,13 +15,13 @@ on:
 env:
   GODOT_VERSION: 4.2.1
   # ANDROID_SERVICE_ACCOUNT_JSON: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
-  # ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-  # ANDROID_KEYSTORE_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
+  ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+  ANDROID_KEYSTORE_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
   # ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
-  # ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-  # ANDROID_KEYSTORE_DEBUG_BASE64: ${{ secrets.ANDROID_KEYSTORE_DEBUG_BASE64 }}
+  ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+  ANDROID_KEYSTORE_DEBUG_BASE64: ${{ secrets.ANDROID_KEYSTORE_DEBUG_BASE64 }}
   # SERVICE_ACCOUNT_JSON: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
-  # WORKING_DIRECTORY: game
+  WORKING_DIRECTORY: .
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -37,10 +37,10 @@ jobs:
       # - name: Create service-account.json
       #   run: echo $SERVICE_ACCOUNT_JSON > service-account.json
 
-      # - name: Create keystores
-      #   run: |
-      #     echo $ANDROID_KEYSTORE_BASE64 | base64 --decode > release.keystore
-      #     echo $ANDROID_KEYSTORE_DEBUG_BASE64 | base64 --decode > debug.keystore
+      - name: Create keystores
+        run: |
+          echo $ANDROID_KEYSTORE_BASE64 | base64 --decode > release.keystore
+          echo $ANDROID_KEYSTORE_DEBUG_BASE64 | base64 --decode > debug.keystore
 
       # - name: Create export_presets.cfg and inject values
       #   run: |
@@ -48,14 +48,14 @@ jobs:
       #     sed -i "s|VERSION_CODE|$VERSION_CODE|g" $WORKING_DIRECTORY/export_presets.cfg
       #     sed -i "s|VERSION_NAME|$VERSION_NAME|g" $WORKING_DIRECTORY/export_presets.cfg
 
-      # - name: Create export_credentials.cfg and inject values
-      #   run: |
-      #     mkdir $WORKING_DIRECTORY/.godot/
-      #     cp $WORKING_DIRECTORY/export_credentials.cfg $WORKING_DIRECTORY/.godot/export_credentials.cfg
-      #     sed -i "s|KEYSTORE_RELEASE_PATH|$GITHUB_WORKSPACE/release.keystore|g" $WORKING_DIRECTORY/.godot/export_credentials.cfg
-      #     sed -i "s|KEYSTORE_DEBUG_PATH|$GITHUB_WORKSPACE/debug.keystore|g" $WORKING_DIRECTORY/.godot/export_credentials.cfg
-      #     sed -i "s|ANDROID_KEYSTORE_ALIAS|$ANDROID_KEYSTORE_ALIAS|g" $WORKING_DIRECTORY/.godot/export_credentials.cfg
-      #     sed -i "s|ANDROID_KEYSTORE_PASSWORD|$ANDROID_KEYSTORE_PASSWORD|g" $WORKING_DIRECTORY/.godot/export_credentials.cfg
+      - name: Create export_credentials.cfg and inject values
+        run: |
+          mkdir $WORKING_DIRECTORY/.godot/
+          cp $WORKING_DIRECTORY/export_credentials.cfg $WORKING_DIRECTORY/.godot/export_credentials.cfg
+          sed -i "s|KEYSTORE_RELEASE_PATH|$GITHUB_WORKSPACE/release.keystore|g" $WORKING_DIRECTORY/.godot/export_credentials.cfg
+          sed -i "s|KEYSTORE_DEBUG_PATH|$GITHUB_WORKSPACE/debug.keystore|g" $WORKING_DIRECTORY/.godot/export_credentials.cfg
+          sed -i "s|ANDROID_KEYSTORE_ALIAS|$ANDROID_KEYSTORE_ALIAS|g" $WORKING_DIRECTORY/.godot/export_credentials.cfg
+          sed -i "s|ANDROID_KEYSTORE_PASSWORD|$ANDROID_KEYSTORE_PASSWORD|g" $WORKING_DIRECTORY/.godot/export_credentials.cfg
 
       - name: Godot Android export
         uses: dulvui/godot-android-export@v4.0.0
@@ -73,11 +73,11 @@ jobs:
       #     status: completed
 
       # GITHUB RELEASES
-      - name: Bundle aab to apk
-        run: |
-          wget -q https://github.com/google/bundletool/releases/download/1.14.0/bundletool-all-1.14.0.jar
-          java -jar bundletool-all-1.14.0.jar build-apks --bundle=Thalicare1.aab --output=Thalicare1.apks --mode=universal
-          unzip -p Thalicare1.apks universal.apk > Thalicare1.apk
+      # - name: Bundle aab to apk
+      #   run: |
+      #     wget -q https://github.com/google/bundletool/releases/download/1.14.0/bundletool-all-1.14.0.jar
+      #     java -jar bundletool-all-1.14.0.jar build-apks --bundle=Thalicare1.aab --output=Thalicare1.apks --mode=universal
+      #     unzip -p Thalicare1.apks universal.apk > Thalicare1.apk
 
       - name: Upload binaries to Github release
         uses: svenstaro/upload-release-action@v2
