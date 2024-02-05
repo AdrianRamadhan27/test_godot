@@ -24,17 +24,17 @@ env:
   WORKING_DIRECTORY: .
 jobs:
   test:
-    name: Run GUT tests
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+    - uses: croconut/godot-tester@v5
+      with:
+        # required
+        version: "4.2.1"
+        path: "."
+        test-dir: "res://test/unit"
+        config-file: "res://.gut_editor_config.json"
 
-      - name: Docker test
-        uses: ceceppa/godot-gut-ci@main
-        with:
-          godot_version: 4.2.1
-          gut_params: -gdir=res://test/unit
   deploy:
     runs-on: ubuntu-latest
     steps:
