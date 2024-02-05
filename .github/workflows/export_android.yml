@@ -85,6 +85,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./thalicare1.apk
           asset_name: thalicare1.apk
-          tag: ${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}
+          tag: latest
           overwrite: true
           body: "Thalicare1 - version: ${{ env.VERSION_NAME }} code: ${{ env.VERSION_CODE }}"
